@@ -39,10 +39,16 @@ namespace HabitTracker {
         /// Usa ref para evitar que a View tenha referência direta ao Model.
         /// Vinculação feita no Controller: view.PrecisoDaListaDeHabitos += model.SolicitarListaHabitos
       
-        public void SolicitarListaHabitos(ref List<Habit> lista) {
+        public void SolicitarListaHabitos(ref List<IReadOnlyHabit> lista) {
             // Devolve a lista de hábitos atual para a View.
             // Usar ref para evitar que a View tenha referência direta ao Model.
-            lista = new List<Habit>(habitos);
+            lista = new List<IReadOnlyHabit>();
+
+            foreach (Habit h in habitos)
+            {
+                lista.Add(h);
+            }
+
         }
 
         /// Inicialização ──────────────────────────────────────────────────

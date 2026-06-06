@@ -7,7 +7,7 @@ namespace HabitTracker {
     /// Esta classe é usada pelo Model para guardar e carregar dados via Json.NET.
     /// Não deve ter dependências de View nem de Controller.
     /// 
-    public class Habit
+    public class Habit : IReadOnlyHabit
     {
 
         // ── Propriedades ───────────────────────────────────────────────────

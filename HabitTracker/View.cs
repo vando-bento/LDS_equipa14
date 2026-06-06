@@ -14,7 +14,7 @@ namespace HabitTracker
 
         // ── Eventos de comunicação com o Model ─────────────────────────────
 
-        public delegate void SolicitacaoListaHabitos(ref List<Habit> lista);
+        public delegate void SolicitacaoListaHabitos(ref List<IReadOnlyHabit> lista);
         public event SolicitacaoListaHabitos PrecisoDaListaDeHabitos;
 
         // ── Eventos de input para o Controller ─────────────────────────────
@@ -52,7 +52,7 @@ namespace HabitTracker
 
         public void AtualizarLista()
         {
-            List<Habit> lista = ObterListaHabitos();
+            List<IReadOnlyHabit> lista = ObterListaHabitos();
 
             Console.WriteLine("── Lista de hábitos ──");
 
@@ -64,7 +64,7 @@ namespace HabitTracker
 
             for (int i = 0; i < lista.Count; i++)
             {
-                Habit habito = lista[i];
+                IReadOnlyHabit habito = lista[i];
 
                 string estado = habito.ConcluidoHoje() ? "[✓]" : "[ ]";
 
@@ -74,14 +74,14 @@ namespace HabitTracker
             }
         }
 
-        private List<Habit> ObterListaHabitos()
+        private List<IReadOnlyHabit> ObterListaHabitos()
         {
-            List<Habit> lista = null;
+            List<IReadOnlyHabit> lista = null;
             PrecisoDaListaDeHabitos?.Invoke(ref lista);
 
             if (lista == null)
             {
-                lista = new List<Habit>();
+                lista = new List<IReadOnlyHabit>();
             }
 
             return lista;
@@ -126,7 +126,7 @@ namespace HabitTracker
             Console.WriteLine("── Concluir hábito ──");
             Console.WriteLine();
 
-            List<Habit> lista = ObterListaHabitos();
+            List<IReadOnlyHabit> lista = ObterListaHabitos();
 
             if (lista.Count == 0)
             {
@@ -137,7 +137,7 @@ namespace HabitTracker
 
             for (int i = 0; i < lista.Count; i++)
             {
-                Habit habito = lista[i];
+                IReadOnlyHabit habito = lista[i];
                 string estado = habito.ConcluidoHoje() ? "[✓]" : "[ ]";
 
                 Console.WriteLine(
