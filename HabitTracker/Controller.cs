@@ -42,7 +42,8 @@ namespace HabitTracker {
         public void IniciarPrograma() {
 
             // 1. Criar os componentes
-            model = new Model();
+            // O Controller injeta a implementação concreta no Model (inversão de dependência).
+            model = new Model(new HabitRepository());
             view  = new View();
 
             // 2. Vincular eventos — TODA a vinculação fica aqui (padrão Krasner & Pope)
