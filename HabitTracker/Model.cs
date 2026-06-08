@@ -22,7 +22,8 @@ namespace HabitTracker {
         private List<Habit> habitos;
 
         /// Repositório para persistência dos hábitos.
-        private HabitRepository repo = new HabitRepository();
+        /// Injetado pelo construtor (inversão de dependência).
+        private readonly IHabitRepository repo;
 
         /// Caminho do ficheiro JSON de persistência.
         //private const string FicheiroJSON = "habitos.json";  - Tratado no HabitRepository
@@ -39,19 +40,26 @@ namespace HabitTracker {
         /// Usa ref para evitar que a View tenha referência direta ao Model.
         /// Vinculação feita no Controller: view.PrecisoDaListaDeHabitos += model.SolicitarListaHabitos
       
-        public void SolicitarListaHabitos(ref List<Habit> lista) {
+        public void SolicitarListaHabitos(ref List<IReadOnlyHabit> lista) {
             // Devolve a lista de hábitos atual para a View.
             // Usar ref para evitar que a View tenha referência direta ao Model.
-            lista = new List<Habit>(habitos);
+            lista = new List<IReadOnlyHabit>();
+
+            foreach (Habit h in habitos)
+            {
+                lista.Add(h);
+            }
+
         }
 
         /// Inicialização ──────────────────────────────────────────────────
 
      
-        /// Construtor. Inicializa a lista de hábitos vazia.
+        /// Construtor. Recebe o repositório (injeção de dependência) e
+        /// inicializa a lista de hábitos vazia.
         /// O carregamento do ficheiro é feito em CarregarHabitos().
-       
-        public Model() {
+        public Model(IHabitRepository repo) {
+            this.repo = repo;
             habitos = new List<Habit>();
         }
 
