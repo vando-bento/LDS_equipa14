@@ -22,7 +22,8 @@ namespace HabitTracker {
         private List<Habit> habitos;
 
         /// Repositório para persistência dos hábitos.
-        private HabitRepository repo = new HabitRepository();
+        /// Injetado pelo construtor (inversão de dependência).
+        private readonly IHabitRepository repo;
 
         /// Caminho do ficheiro JSON de persistência.
         //private const string FicheiroJSON = "habitos.json";  - Tratado no HabitRepository
@@ -54,10 +55,11 @@ namespace HabitTracker {
         /// Inicialização ──────────────────────────────────────────────────
 
      
-        /// Construtor. Inicializa a lista de hábitos vazia.
+        /// Construtor. Recebe o repositório (injeção de dependência) e
+        /// inicializa a lista de hábitos vazia.
         /// O carregamento do ficheiro é feito em CarregarHabitos().
-       
-        public Model() {
+        public Model(IHabitRepository repo) {
+            this.repo = repo;
             habitos = new List<Habit>();
         }
 
